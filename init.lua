@@ -57,6 +57,12 @@ function luasdl.addrect(im, x1, y1, w, h, r, col)
 
 end
 
+function luasdl.wait(n)
+
+	luasdl.sdl.SDL_Delay(n)
+
+end
+
 function luasdl.quit()
 
 	luasdl.sdl.SDL_Quit()
