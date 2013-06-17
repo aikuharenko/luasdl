@@ -30,7 +30,7 @@ torch.setdefaulttensortype('torch.FloatTensor')
 
 torch.setnumthreads(4)
 
-luasdl.init(640, 480)
+luasdl.init(640, 480, 'face detector')
 
 -- blob parser
 parse = inline.load [[

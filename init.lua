@@ -9,17 +9,17 @@ ffi.cdef(io.open(paths.install_lua_path .. '/luasdl/sdl_api.h', 'r'):read('*a'))
 ffi.cdef[[
 
 void cdisplay(SDL_Surface *, float*, int width, int height);
-SDL_Surface* init(int width, int height);
+SDL_Surface* init(int width, int height, const uint8_t * title);
 
 ]]
 
 luasdl = {}
 
-function luasdl.init(width, height)
+function luasdl.init(width, height, title)
 
 	local sdl = ffi.load("luasdl")
 	luasdl.sdl = sdl
-	luasdl.screen = sdl.init(width, height)
+	luasdl.screen = sdl.init(width, height, title)
 
 end
 
