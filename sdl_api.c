@@ -1,9 +1,6 @@
 #include "stdio.h"
 #include <SDL/SDL.h>
 
-#define MIN(x, y) (((x) < (y)) ? (x) : (y))
-#define MAX(x, y) (((x) > (y)) ? (x) : (y))
-
 SDL_Surface* init(int width, int height, const uint8_t * title){
 
 	SDL_Surface *screen;
@@ -16,12 +13,12 @@ SDL_Surface* init(int width, int height, const uint8_t * title){
 
 	}
 
-	screen = SDL_SetVideoMode(width, height, 0, SDL_DOUBLEBUF );
+	screen = SDL_SetVideoMode(width, height, 32, SDL_ANYFORMAT );
 	if (screen == NULL) {
 		printf("Unable to set video mode: %s\n", SDL_GetError());
 		return 0;
 	}
-	
+
 	printf("%s\n", title);
 	SDL_WM_SetCaption((const char*)title, (const char*)title);
 	return screen;	
@@ -34,40 +31,33 @@ void cdisplay(SDL_Surface* screen, float* im, int width, int height){
 	int stride = width * height;
 
 	char* raw_pixels = (char*) screen->pixels;
-	
-	int *r = (int*) malloc(stride * sizeof(int));
-	int *g = (int*) malloc(stride * sizeof(int));
-	int *b = (int*) malloc(stride * sizeof(int));
-	
-	if ((r == NULL) || (g == NULL) || (b == NULL)){
-		printf("can't allocate memory\n");
-		return;
-	}
-
-	for (i = 0; i < stride; i++){
-		r[i] = MAX(0, MIN(255, im[i] * 256));
-	}
-
-	for (i = 0; i < stride; i++){
-		g[i] = MAX(0, MIN(255, im[i + stride] * 256));
-	}
-
-	for (i = 0; i < stride; i++){
-		b[i] = MAX(0, MIN(255, im[i + 2 * stride] * 256));
-	}
 
 	if (SDL_MUSTLOCK(screen)) SDL_LockSurface(screen);
+	int bpp = screen->format->BytesPerPixel;
+	int pitch = screen->pitch;
 
 	//copy image values to screen
 	for (y = 0; y < height; y++) {
 		for (x = 0; x < width; x++) {
 
 			int pos = x + y * width;
+			int r = im[pos] * 256;
+			if (r < 0) r = 0;
+			if (r > 255) r = 255;
+				
+			int g = im[pos + stride] * 256;
+			if (g < 0) g = 0;
+			if (g > 255) g = 255;
 
-			Uint32 pixel_color = SDL_MapRGB(screen->format, r[pos], g[pos], b[pos]);
-			int offset = (screen->pitch * y + x * screen->format->BytesPerPixel);
-			
-			memcpy(&raw_pixels[offset], &pixel_color, screen->format->BytesPerPixel);
+			int b = im[pos + 2 * stride] * 256;
+			if (b < 0) b = 0;
+			if (b > 255) b = 255;
+
+			//Uint32 pixel_color = SDL_MapRGB(screen->format, r, g, b);
+			Uint32 pixel_color = (r << 16) + (g << 8) + b;
+			int offset = (pitch * y + x * bpp);
+
+			memcpy(&raw_pixels[offset], &pixel_color, bpp);
 
 		}
 	}
@@ -76,20 +66,8 @@ void cdisplay(SDL_Surface* screen, float* im, int width, int height){
 
 	//refresh screen
 	SDL_Flip(screen);
+	//SDL_UpdateRect(screen, 0,0,0,0);
 
-
-	if (r != NULL){
-		free(r);
-		r = NULL;
-	}
-	if (g != NULL){
-		free(g);
-		g = NULL;
-	}
-	if (b != NULL){
-		free(b);
-		b = NULL;
-	}
 
 }
 
