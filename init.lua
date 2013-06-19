@@ -9,7 +9,9 @@ ffi.cdef(io.open(paths.install_lua_path .. '/luasdl/sdl_api.h', 'r'):read('*a'))
 ffi.cdef[[
 
 void cdisplay(SDL_Surface *, float*, int width, int height);
+void cdrawtext(SDL_Surface *, const uint8_t * fontpath, const uint8_t * text, int fontsize, int x, int y, int r, int g, int b);
 SDL_Surface* init(int width, int height, const uint8_t * title);
+void crefresh(SDL_Surface *);
 
 ]]
 
@@ -35,6 +37,13 @@ function luasdl.display(img)
 
 end
 
+function luasdl.drawText(text, fontsize, x, y, col)
+
+	fontpath = paths.install_lua_path .. '/luasdl/FreeMono.ttf'
+	luasdl.sdl.cdrawtext(luasdl.screen, fontpath, text, fontsize, x, y, col[1], col[2], col[3])
+
+end
+
 function luasdl.addrect(im, x1, y1, w, h, r, col)
 
 	local x2 = x1 + w
@@ -57,6 +66,10 @@ function luasdl.addrect(im, x1, y1, w, h, r, col)
 
 end
 
+function luasdl.refreshScreen()
+	luasdl.sdl.crefresh(luasdl.screen)
+end
+
 function luasdl.wait(n)
 
 	luasdl.sdl.SDL_Delay(n)
@@ -65,6 +78,7 @@ end
 
 function luasdl.quit()
 
+	luasdl.sdl.TTF_Quit();
 	luasdl.sdl.SDL_Quit()
 
 end

@@ -5,11 +5,12 @@ FIND_PACKAGE(Torch REQUIRED)
 
 set (libname luasdl)
 set (src sdl_api.c)
-set (luasrc init.lua sdl_api.h)
+set (luasrc init.lua sdl_api.h FreeMono.ttf)
 
 
 ADD_TORCH_PACKAGE("${libname}" "${src}" "${luasrc}" "sdl lua api")
 target_link_libraries (${libname} SDL)
+target_link_libraries (${libname} SDL_ttf)
 
 
 

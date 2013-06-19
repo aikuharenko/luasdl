@@ -136,10 +136,19 @@ function display()
 
 	nframe = frame
     for i,detect in ipairs(detections) do
-		nframe = luasdl.addrect(nframe, detect.x, detect.y, detect.w, detect.h, 5, {1, 0, 0})
+
+		nframe = luasdl.addrect(nframe, detect.x, detect.y, detect.w, detect.h, 2, {0, 255, 0})
+
 	end
 
 	luasdl.display(nframe)
+    for i,detect in ipairs(detections) do
+
+		luasdl.drawText('face', 16, detect.x, detect.y - 20, {0, 255, 0})
+
+	end
+	
+	luasdl.refreshScreen()
 
 end
 

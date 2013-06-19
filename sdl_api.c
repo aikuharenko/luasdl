@@ -1,5 +1,6 @@
 #include "stdio.h"
 #include <SDL/SDL.h>
+#include <SDL/SDL_ttf.h>
 
 SDL_Surface* init(int width, int height, const uint8_t * title){
 
@@ -13,21 +14,26 @@ SDL_Surface* init(int width, int height, const uint8_t * title){
 
 	}
 
-	screen = SDL_SetVideoMode(width, height, 32, SDL_ANYFORMAT );
+	if (TTF_Init() == -1){
+		printf("error initializing ttf\n");
+		return 0;
+	}
+
+	screen = SDL_SetVideoMode(width, height, 32, SDL_DOUBLEBUF );
 	if (screen == NULL) {
 		printf("Unable to set video mode: %s\n", SDL_GetError());
 		return 0;
 	}
 
-	printf("%s\n", title);
 	SDL_WM_SetCaption((const char*)title, (const char*)title);
+
 	return screen;	
 
 }
 
 void cdisplay(SDL_Surface* screen, float* im, int width, int height){
 
-	int x, y, i;
+	int x, y;
 	int stride = width * height;
 
 	char* raw_pixels = (char*) screen->pixels;
@@ -64,12 +70,37 @@ void cdisplay(SDL_Surface* screen, float* im, int width, int height){
 
 	if (SDL_MUSTLOCK(screen)) SDL_UnlockSurface(screen);
 
-	//refresh screen
-	SDL_Flip(screen);
-	//SDL_UpdateRect(screen, 0,0,0,0);
+}
 
+void cdrawtext(SDL_Surface* screen, const uint8_t * fontpath, const uint8_t * text, int fontsize, int x, int y, int r, int g, int b){
+
+	TTF_Font* font = TTF_OpenFont((const char*)fontpath, fontsize);
+	if (font == NULL){
+		printf("error loading font\n");
+		return;
+	}
+
+	SDL_Color color = { r, g, b };
+	SDL_Surface* textSurface = TTF_RenderText_Solid(font, (const char*)text, color);
+
+	if (textSurface == NULL){
+		printf("error rendering text\n");
+		return;
+	}
+
+	SDL_Rect textLocation = { x, y, 0, 0 };
+	SDL_BlitSurface(textSurface, NULL, screen, &textLocation);
+	SDL_FreeSurface(textSurface);
+	TTF_CloseFont(font);
 
 }
+
+void crefresh(SDL_Surface *screen){
+
+	SDL_Flip(screen);
+
+}
+
 
 
 //another way to copy pixels to screen
