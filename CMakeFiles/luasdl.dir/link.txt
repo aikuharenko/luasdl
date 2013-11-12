@@ -1,1 +1,0 @@
-/usr/bin/cc  -fexceptions  -Wall -Wno-unused-function -Wno-unknown-pragmas -O3 -DNDEBUG -dynamiclib -Wl,-headerpad_max_install_names   -o libluasdl.dylib -install_name /Users/eugenioculurciello/Code/Lua/luasdl/libluasdl.dylib CMakeFiles/luasdl.dir/sdl_api.c.o -lSDL 
