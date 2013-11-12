@@ -132,14 +132,18 @@ function display()
 end
 
 while true do
-      p:start('full loop','fps')
-      p:start('prediction','fps')
-      process()
-      p:lap('prediction')
-      p:start('display','fps')
-      display()
-      p:lap('display')
-      p:lap('full loop')
-      p:printAll()
+      
+	p:start('full loop','fps')
+   p:start('prediction','fps')
+   process()
+   p:lap('prediction')
+   p:start('display','fps')
+   display()
+	p:lap('display')
+   p:lap('full loop')
+   p:printAll()
+
+	if luasdl.check_window() == 1 then break end
+
 end
 

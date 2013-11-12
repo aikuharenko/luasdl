@@ -25,6 +25,18 @@ SDL_Surface* init(int width, int height, const uint8_t * title){
 
 }
 
+int check_window_closed(){
+
+	SDL_Event test_event;
+	SDL_PollEvent(&test_event);
+	int closed = 0;
+	if (test_event.type == SDL_QUIT) {
+		closed = 1;
+	}	
+	return closed;
+
+}
+
 void cdisplay(SDL_Surface* screen, float* im, int width, int height){
 
 	int x, y, i;

@@ -10,6 +10,7 @@ ffi.cdef[[
 
 void cdisplay(SDL_Surface *, float*, int width, int height);
 SDL_Surface* init(int width, int height, const uint8_t * title);
+int check_window_closed();
 
 ]]
 
@@ -20,6 +21,13 @@ function luasdl.init(width, height, title)
 	local sdl = ffi.load("luasdl")
 	luasdl.sdl = sdl
 	luasdl.screen = sdl.init(width, height, title)
+
+end
+
+function luasdl.check_window()
+
+	t = luasdl.sdl.check_window_closed()
+	return t
 
 end
 
