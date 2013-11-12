@@ -1,0 +1,14 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/eugenioculurciello/Code/Lua/luasdl/sdl_api.c
+stdio.h
+/Users/eugenioculurciello/Code/Lua/luasdl/stdio.h
+SDL/SDL.h
+-
+

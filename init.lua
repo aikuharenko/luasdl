@@ -37,8 +37,8 @@ end
 
 function luasdl.addrect(im, x1, y1, w, h, r, col)
 
-	local x2 = x1 + w
-	local y2 = y1 +h
+	local x2 = x1 + w -r
+	local y2 = y1 + h -r
 	local min = math.min
 	local max = math.max
 	local sx = (#im)[3]

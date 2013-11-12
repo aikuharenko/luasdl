@@ -1,0 +1,3 @@
+/usr/local/lib/libluasdl.dylib
+/usr/local/lua/luasdl/init.lua
+/usr/local/lua/luasdl/sdl_api.h

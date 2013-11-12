@@ -1,0 +1,2 @@
+/Users/eugenioculurciello/Code/Lua/luasdl/CMakeFiles/documentation-dok.dir
+/Users/eugenioculurciello/Code/Lua/luasdl/CMakeFiles/luasdl.dir
