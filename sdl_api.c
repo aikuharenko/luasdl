@@ -53,8 +53,8 @@ void cdisplay(SDL_Surface* screen, float* im, int width, int height){
 			if (b < 0) b = 0;
 			if (b > 255) b = 255;
 
-			//Uint32 pixel_color = SDL_MapRGB(screen->format, r, g, b);
-			Uint32 pixel_color = (r << 16) + (g << 8) + b;
+			Uint32 pixel_color = SDL_MapRGB(screen->format, r, g, b);
+			//Uint32 pixel_color = (r << 16) + (g << 8) + b;
 			int offset = (pitch * y + x * bpp);
 
 			memcpy(&raw_pixels[offset], &pixel_color, bpp);
