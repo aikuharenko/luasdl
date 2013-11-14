@@ -19,7 +19,7 @@ SDL_Surface* init(int width, int height, const uint8_t * title){
 		return 0;
 	}
 
-	printf("%s\n", title);
+	//printf("%s\n", title);
 	SDL_WM_SetCaption((const char*)title, (const char*)title);
 	return screen;	
 

@@ -18,6 +18,7 @@ luasdl = {}
 
 function luasdl.init(width, height, title)
 
+	print('init lua sdl')
 	local sdl = ffi.load("luasdl")
 	luasdl.sdl = sdl
 	luasdl.screen = sdl.init(width, height, title)
